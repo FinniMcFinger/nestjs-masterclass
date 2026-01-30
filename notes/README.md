@@ -1,7 +1,5 @@
 # NestJS Training Notes
 
-This repository contains code and notes that were written while taking a [NestJS training course on Udemy](https://www.udemy.com/course/nestjs-masterclass-complete-course).
-
 ## Nest CLI
 
 You can install the Nest CLI with NPM via `npm install -g @nestjs/cli`. `nest --version` can be used to verify installation. It is recommended to install this globally, as it is not part of an individual project. The CLI provides you with many commands to generate projects, apps, modules, etc. When in doubt, use `nest --help`.
