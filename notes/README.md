@@ -1,0 +1,48 @@
+# NestJS Training Notes
+
+This repository contains code and notes that were written while taking a [NestJS training course on Udemy](https://www.udemy.com/course/nestjs-masterclass-complete-course).
+
+## Nest CLI
+
+You can install the Nest CLI with NPM via `npm install -g @nestjs/cli`. `nest --version` can be used to verify installation. It is recommended to install this globally, as it is not part of an individual project. The CLI provides you with many commands to generate projects, apps, modules, etc. When in doubt, use `nest --help`.
+
+## Modules
+
+Modules are packages of specific functionality. The `*.module.ts` is what connects all the module files.
+
+```
+users-module/
+├── users.module.ts
+├── users.controller.ts
+├── users.service.ts
+├── user.entity.ts
+└── users.controller.spec.ts
+```
+
+All interactions with that module go through the `*.module.ts` file (this is a naming convention; the `@Module` decorator is what actually creates a module). Nest connects all modules via `app.module.ts`. The `app` module is the central module for your application.
+
+The `main.ts` file operates the entire application. It bootstraps the application, typically creating the `AppModule` which then calls your other modules. `main.ts` is the main entrypoint, similar to the application class file in Spring Boot for Java.
+
+### Module Creation
+
+A module can be created using the Nest CLI: `nest generate module module-name` or `nest g mo module-name`. It will create the module skeleton automatically and inject it into the `app-module.ts` imports. If the `app` module is in a subdirectory of `src`, you may have to add the import manually.
+
+### Controllers
+
+Controllers specify routing within the module and forward requests to service classes. They handle the incoming requests and decide which service classes and methods to invoke.
+
+Nest is replete with decorators for building controllers. A controller is first defined with the `@Controller` decoration. There are decorators for each of the HTTP verbs as well as decorators for things like the request, request body, header, IP address. 
+
+The `@Controller` and the HTTP verb decorators can be qualified with paths. For example `@Controllers('users')` would host the controller at `/users`. An endpoint within that controller decorated with `@Get(':id)` would be hosted at `/users/some-id-here`.
+
+Optional path parameters can also be defined, but there are different implementation based on Nest version. Prior to v11, optional params were declared using the `?` character, i.e. `@Get(:optionalParam?)`. Version 11 integrates Express v5 which is not compatible with this declaration style (use of regexes). Thus, the format changed: `@Get({:optional-param})`. This can also be used to remove slashes in complex paths: `@Get(:id{/:optional)`. This makes both of the following valid endpoints to call: `/some-id/some-optional-value` and `/some-id`.
+
+See the many controller files within the repository for examples of mechanics at work with other decorators. Most of them are very self-explanatory.
+
+### Services
+
+Services contain your main business logic. These are also called providers in the Nest framework.
+
+### Specs
+
+Spec files contain test files.
