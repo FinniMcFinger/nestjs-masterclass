@@ -37,10 +37,58 @@ Optional path parameters can also be defined, but there are different implementa
 
 See the many controller files within the repository for examples of mechanics at work with other decorators. Most of them are very self-explanatory.
 
-### Services
+### Services and Providers
 
 Services contain your main business logic. These are also called providers in the Nest framework.
 
 ### Specs
 
 Spec files contain test files.
+
+## Request and Response Lifecycle
+
+```
+request -> middleware -|-> filters start -> guards -> interceptors -> pipes -> controller 
+                       |
+                       -- filter boundary --
+                                           |
+controller -> interceptors -> filters end -|-> response
+```
+
+### Pipes
+
+Pipes perform 2 major functions: validation and transformation of incoming requests. Pipes ensure that controllers receive information in the exact format that they require, otherwise they throw an error. Nest provides [9 different built-in pipes](https://docs.nestjs.com/pipes#built-in-pipes) that can be used out of the box without configuration. You can also create custom pipes containing validation logic as needed. Using the built-in pipelines doesn't work on optional parameters. Pipes that start with the `Parse` keyword do not need a new instance. Pipes like the `DefaultValuePipe` require a new instance along with other data (the default value in this case).
+
+Pipes can be used globally by adding them to the app that in `main.ts`.
+
+#### Validation Pipe
+
+`ValidationPipe` can carry with it additional configurations. For example, if configuring `whitelist` to be `true`, superfluous data fields passed in request bodies will be ignored. See the [documentation](https://docs.nestjs.com/techniques/validation#using-the-built-in-validationpipe) for all the configuration options.
+
+Using `ValidationPipe` globally will ensure that all requests pass through some sort of validation if they handle a DTO.
+
+### DTOs
+
+Data transfer objects (DTOs) are useful for validating and treating data before it gets to the controller. DTOs keep the controller class from being crowded with validation and pipe calls.
+
+Nest uses [class-validator](https://github.com/typestack/class-validator) in the background to do much validation within DTOs. This package contains a plethora of validation coverage, so when in doubt, refer to its documentation.
+
+DTOs work hand-in-hand with the `ValidationPipe` provided by Nest. This is largely done with the metadata reflection API behind the scenes.
+
+```typescript
+import { Controller, Post, Body, ValidationPipe } from "@nestjs/common";
+
+@Controller()
+export class MyController {
+    @Post()
+    public create(
+        @Body(new ValidationPipe()) body: MyTypeDto
+    ) {
+        // ...
+    }
+}
+```
+
+By default, request bodies _are not_ instances of the declared DTO, despite the type reference to it. They are objects with the same shape of the declared DTO type. In order to transform the request body into an instance of the declared DTO, you must configure the validation pipe with `transform: true`.
+
+Using the [Mapped Types \(`@nestjs/mapped-types`\)](https://docs.nestjs.com/openapi/mapped-types) module allows you to prevent much code duplication, particularly by extending the `PartialType` class. You can see an example of this in action via the [`PatchUserDto` class](../nestjs-intro/src/users/dtos/patch-user.dto.ts).

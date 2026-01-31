@@ -1,31 +1,36 @@
-import {Controller, Get, Post, Patch, Put, Delete, Param, Query, Body, Req, Headers, Ip} from '@nestjs/common';
+import {Controller, Get, Post, Patch, Put, Delete, Param, Query, Body, Req, Headers, Ip, ParseIntPipe,
+    DefaultValuePipe, ValidationPipe} from '@nestjs/common';
+import {CreateUserDto} from "./dtos/create-user.dto";
+import {GetUserParamsDto} from "./dtos/get-users-param-dto";
+import {PatchUserDto} from "./dtos/patch-user.dto";
 
 @Controller('users')
 export class UsersController {
     // optional param declaration to get rid of hanging slash
-    @Get(':id{/:optional}')
-    public getUsers(@Param() params: any, @Query() query: any) {
-        console.log(params);
-        console.log(query);
+    @Get('{/:id}')
+    public getUsers(
+        @Param() getUsersParamDto: GetUserParamsDto,
+        @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    ) {
+        console.log(getUsersParamDto);
 
-        return `GET to /users`;
+        return `GET to /users/${getUsersParamDto}`;
     }
 
-    // demonstrates grabbing specific fields
-    // @Get(':id{/:optional}')
-    // public getUsers(@Param('id') id: string, @Query('limit') limit: number) {
-    //     console.log(id);
-    //     console.log(limit);
-    //
-    //     return `GET to /users/${id}`;
-    // }
-
     @Post()
-    public createUser(@Req() request: Request, @Headers() headers: any, @Ip() ip: any) {
-        console.log(request.body);
-        console.log(headers);
-        console.log(ip);
+    // no `ValidationPipe` reference needed in @Body declaration because global pipe is being used
+    public createUser(
+        @Body() createUserDto: CreateUserDto,
+    ) {
+        console.log(`request body type CreateUserDto? ${createUserDto instanceof CreateUserDto}`)
+        console.log(createUserDto);
 
         return "POST to /users";
+    }
+
+    @Patch()
+    public patchUser(@Body() patchUserDto: PatchUserDto) {
+        return patchUserDto;
     }
 }

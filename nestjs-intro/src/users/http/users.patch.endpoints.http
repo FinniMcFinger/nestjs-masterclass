@@ -1,10 +1,9 @@
-POST http://localhost:3000/users
+PATCH http://localhost:3000/users
 Content-Type: application/json
 
 {
   "firstName": "Marty",
   "lastName": "McFly",
   "email": "marty@outtatime.com",
-  "password": "Th1s is heavy!",
-  "isAuth": true
+  "password": "Th1s is heavy!"
 }
