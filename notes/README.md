@@ -37,9 +37,9 @@ Optional path parameters can also be defined, but there are different implementa
 
 See the many controller files within the repository for examples of mechanics at work with other decorators. Most of them are very self-explanatory.
 
-### Services and Providers
+### Providers
 
-Services contain your main business logic. These are also called providers in the Nest framework.
+Providers are services that contain your main business logic. Providers provide functionality _within_ the module. To make this functionality available to other modules, it has to be exported by the module. Providers are typified by the `@Injectable()` decoration. The provider is declared in the module's providers, and it is injected into anything using it via constructor.
 
 ### Specs
 
@@ -92,3 +92,11 @@ export class MyController {
 By default, request bodies _are not_ instances of the declared DTO, despite the type reference to it. They are objects with the same shape of the declared DTO type. In order to transform the request body into an instance of the declared DTO, you must configure the validation pipe with `transform: true`.
 
 Using the [Mapped Types \(`@nestjs/mapped-types`\)](https://docs.nestjs.com/openapi/mapped-types) module allows you to prevent much code duplication, particularly by extending the `PartialType` class. You can see an example of this in action via the [`PatchUserDto` class](../nestjs-intro/src/users/dtos/patch-user.dto.ts).
+
+## Dependency Injection
+
+Intramodule dependency injection (DI) is easily done by declaring providers within the module file and injecting the dependency via constructors. 
+
+Intermodule DI is done via the `exports` array in the `@Module` declaration. Only classes decorated as `@Injectable` can be exported. The module exporting the provider is then imported in the module declaration of the other module. You always import a module, not individual providers. Nest only imports the exported providers under the hood.
+
+Circular dependencies are when two modules depend upon each other. They require special handling. Both modules must export the required providers. Both modules must import the other module. Leaving it here will generate a circular dependency error. The imports and injection points must all be wrapped in the `forwardRef` function provided by Nest (`@nestjs/common`). You can see this in play in the [users module](../nestjs-intro/src/users) and [auth module](../nestjs-intro/src/auth). You can see the injected `forwardRef` in the [users service](../nestjs-intro/src/users/providers/users.service.ts) and [auth service](../nestjs-intro/src/auth/providers/auth.service.ts).
