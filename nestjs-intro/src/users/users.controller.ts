@@ -4,8 +4,11 @@ import {CreateUserDto} from "./dtos/create-user.dto";
 import {GetUserParamsDto} from "./dtos/get-users-param-dto";
 import {PatchUserDto} from "./dtos/patch-user.dto";
 import {UsersService} from "./providers/users.service";
+import {ApiTags} from "@nestjs/swagger";
 
 @Controller('users')
+// API Tags seems to be unnecessary in more recent versions of Swagger, but it can override the default name if needed.
+// @ApiTags('Users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 

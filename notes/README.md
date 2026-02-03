@@ -100,3 +100,15 @@ Intramodule dependency injection (DI) is easily done by declaring providers with
 Intermodule DI is done via the `exports` array in the `@Module` declaration. Only classes decorated as `@Injectable` can be exported. The module exporting the provider is then imported in the module declaration of the other module. You always import a module, not individual providers. Nest only imports the exported providers under the hood.
 
 Circular dependencies are when two modules depend upon each other. They require special handling. Both modules must export the required providers. Both modules must import the other module. Leaving it here will generate a circular dependency error. The imports and injection points must all be wrapped in the `forwardRef` function provided by Nest (`@nestjs/common`). You can see this in play in the [users module](../nestjs-intro/src/users) and [auth module](../nestjs-intro/src/auth). You can see the injected `forwardRef` in the [users service](../nestjs-intro/src/users/providers/users.service.ts) and [auth service](../nestjs-intro/src/auth/providers/auth.service.ts).
+
+## Code Documentation
+
+Nest provides two types of tools for API documentation and code documentation.
+
+### API Documentation
+
+Nest uses OpenAI (leveraging Swagger UI) for API documentation. It hosts the documentation at the same URL as your application, under the configured location, i.e. `/api`.
+
+### Code Documentation
+
+Compodoc is used to build generate code documentation. Nest does the heavy lifting for generating this documentation. This documentation is generated within the app, giving access to developers without publicly posting it.
