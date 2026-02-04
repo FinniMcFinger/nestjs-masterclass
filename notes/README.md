@@ -107,7 +107,7 @@ Nest provides two types of tools for API documentation and code documentation.
 
 ### API Documentation
 
-Nest uses OpenAI (leveraging Swagger UI) for API documentation. It hosts the documentation at the same URL as your application, under the configured location, i.e. `/api`. Swagger is often configured in [`main.ts`](../nestjs-intro/src/main.ts). You can also add additional details to the Swagger docs via decorators in controllers and/or DTOs.
+Nest comes with Swagger implementations for API documentation. It hosts the documentation at the same URL as your application, under the configured location, i.e. `/api`. Swagger is often configured in [`main.ts`](../nestjs-intro/src/main.ts). You can also add additional details to the Swagger docs via decorators in controllers and/or DTOs. See the [posts module](../nestjs-intro/src/posts) for many examples of documenting endpoints, DTOs, nested DTOs, mapped types, etc.
 
 ### Code Documentation
 
