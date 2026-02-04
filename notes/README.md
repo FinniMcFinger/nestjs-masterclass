@@ -71,7 +71,7 @@ Using `ValidationPipe` globally will ensure that all requests pass through some 
 
 Data transfer objects (DTOs) are useful for validating and treating data before it gets to the controller. DTOs keep the controller class from being crowded with validation and pipe calls.
 
-Nest uses [class-validator](https://github.com/typestack/class-validator) in the background to do much validation within DTOs. This package contains a plethora of validation coverage, so when in doubt, refer to its documentation.
+Nest uses [class-validator](https://github.com/typestack/class-validator) in the background to do much validation within DTOs. This package contains a plethora of validation coverage, so when in doubt, refer to its documentation. Nested DTOs can also be validated in this manner, though you do need to leverage the `@Type` decorator from `class-transformer`. You can see this in action in the [post creation DTO](../nestjs-intro/src/posts/dtos/create-post.dto.ts) on the `metaOptions` field.
 
 DTOs work hand-in-hand with the `ValidationPipe` provided by Nest. This is largely done with the metadata reflection API behind the scenes.
 
