@@ -53,7 +53,7 @@ export class UsersController {
         console.log(`request body type CreateUserDto? ${createUserDto instanceof CreateUserDto}`)
         console.log(createUserDto);
 
-        return "POST to /users";
+        return this.usersService.createUser(createUserDto);
     }
 
     @Patch()

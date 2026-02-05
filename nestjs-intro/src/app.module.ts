@@ -1,12 +1,12 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { PostsModule } from "./posts/posts.module";
-import { AuthModule } from './auth/auth.module';
+import {Module} from '@nestjs/common';
+import {AppController} from './app.controller';
+import {AppService} from './app.service';
+import {UsersModule} from './users/users.module';
+import {PostsModule} from "./posts/posts.module";
+import {AuthModule} from './auth/auth.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {ConfigModule} from "@nestjs/config";
-import {AuthService} from "./auth/providers/auth.service";
+import {User} from "./users/user.entity";
 
 @Module({
     imports: [
@@ -19,7 +19,7 @@ import {AuthService} from "./auth/providers/auth.service";
             inject: [],
             useFactory: () => ({
                 type: "postgres",
-                entities: [],
+                entities: [User],
                 synchronize:  process.env.DB_SYNC === "true", // use in dev only
                 host: process.env.DB_HOST,
                 port: 5432,
