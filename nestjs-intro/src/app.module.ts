@@ -7,6 +7,8 @@ import {AuthModule} from './auth/auth.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {ConfigModule} from "@nestjs/config";
 import {User} from "./users/user.entity";
+import { TagsModule } from './tags/tags.module';
+import { MetaOptionsModule } from './meta-options/meta-options.module';
 
 @Module({
     imports: [
@@ -19,7 +21,8 @@ import {User} from "./users/user.entity";
             inject: [],
             useFactory: () => ({
                 type: "postgres",
-                entities: [User],
+                // entities: [User],
+                autoLoadEntities: true,
                 synchronize:  process.env.DB_SYNC === "true", // use in dev only
                 host: process.env.DB_HOST,
                 port: 5432,
@@ -27,7 +30,9 @@ import {User} from "./users/user.entity";
                 password: process.env.DB_PASSWORD ?? "pass",
                 database: process.env.DB_DATABASE ?? "nestjs-masterclass",
             }),
-        })
+        }),
+        TagsModule,
+        MetaOptionsModule
     ],
     controllers: [AppController],
     providers: [AppService],

@@ -8,14 +8,13 @@ import {
     IsString,
     IsUrl,
     Matches,
-    maxLength,
     MaxLength,
     MinLength,
     ValidateNested
 } from "class-validator";
 import {PostType} from "../enums/post-type.enum";
 import {PostStatus} from "../enums/post-status.enum";
-import {CreatePostMetaOptionsDto} from "./create-post-meta-options.dto";
+import {CreatePostMetaOptionsDto} from "../../meta-options/dtos/create-meta-options.dto";
 import {Type} from "class-transformer";
 import {ApiProperty, ApiPropertyOptional} from "@nestjs/swagger";
 
@@ -100,6 +99,7 @@ export class CreatePostDto {
     @IsArray()
     @IsString({ each: true })
     @MinLength(3, { each: true })
+    @MaxLength(256, { each: true })
     @IsOptional()
     tags?: string[];
 
