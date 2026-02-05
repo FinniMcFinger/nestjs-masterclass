@@ -114,3 +114,9 @@ Nest comes with Swagger implementations for API documentation. It hosts the docu
 Compodoc is used to build generate code documentation. Nest does the heavy lifting for generating this documentation. This documentation is generated within the app, giving access to developers without publicly posting it. Compodoc can be configured in the [package.json](../nestjs-intro/package.json) to run in its own script to generate documents. It's a good idea to ignore these documents in source control, as they are meant to be generated on-demand. You _may_ want to add a version of the documentation to source control at set versions of the application. In this case, you would want to create a separate script that is explicitly called, possibly in a CI workflow.
 
 Document coverage percentages are based on JSDoc comments within the code. Compodoc will automatically document your code without any sort of additional comments.
+
+## Database Integration
+
+### Object Relational Model
+
+Nest has two tight integrations with object relational models (ORM): TypeORM and mongoose. TypeORM works with just about any relational database. Mongoose is aimed at NoSQL integrations, particularly MongoDB.  Other ORMs are also available. The ORM provides an abstraction layer in front of the database such that the developer won't need to write any queries for the database except in the most extreme circumstances.
