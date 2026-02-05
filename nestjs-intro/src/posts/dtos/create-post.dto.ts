@@ -2,13 +2,14 @@ import {
     IsArray,
     IsEnum,
     IsISO8601,
-    isISO8601,
     IsJSON,
     IsNotEmpty,
     IsOptional,
     IsString,
     IsUrl,
     Matches,
+    maxLength,
+    MaxLength,
     MinLength,
     ValidateNested
 } from "class-validator";
@@ -26,6 +27,7 @@ export class CreatePostDto {
     @IsString()
     @IsNotEmpty()
     @MinLength(4)
+    @MaxLength(512)
     title: string;
 
     @ApiProperty({
@@ -46,6 +48,7 @@ export class CreatePostDto {
     @Matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
         message: "Slug should only have lower-case letters, numbers, and hyphens. For example: \"my-slug-here\"",
     })
+    @MaxLength(256)
     slug: string;
 
     @ApiProperty({
@@ -78,6 +81,7 @@ export class CreatePostDto {
         example: "https://outtatime.com/images/delorean.png",
     })
     @IsUrl()
+    @MaxLength(1024)
     @IsOptional()
     featuredImageUrl?: string;
 
