@@ -1,13 +1,14 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import { PostType } from "./enums/post-type.enum";
 import { PostStatus } from "./enums/post-status.enum";
-import { CreatePostMetaOptionsDto } from "../meta-options/dtos/create-meta-options.dto";
+import { CreateMetaOptionsDto } from "../meta-options/dtos/create-meta-options.dto";
+import {MetaOption} from "../meta-options/meta-option.entity";
 
 @Entity()
 export class Post {
     @PrimaryGeneratedColumn()
-    id: number;
+    id?: number;
 
     @Column({
         type: "varchar",
@@ -67,5 +68,7 @@ export class Post {
 
     tags?: string[];
 
-    metaOptions?: CreatePostMetaOptionsDto;
+    @OneToOne(() => MetaOption)
+    @JoinColumn({ name: "metaOptionId" })
+    metaOptions?: MetaOption | null;
 }

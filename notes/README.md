@@ -120,3 +120,20 @@ Document coverage percentages are based on JSDoc comments within the code. Compo
 ### Object Relational Model
 
 Nest has two tight integrations with object relational models (ORM): TypeORM and mongoose. TypeORM works with just about any relational database. Mongoose is aimed at NoSQL integrations, particularly MongoDB.  Other ORMs are also available. The ORM provides an abstraction layer in front of the database such that the developer won't need to write any queries for the database except in the most extreme circumstances.
+
+### Relations
+
+Mapping relations is easy via TypeORM. It contains many decorators for declaring all types of entity relations within the database. A key decorator is `@JoinColumn`. This column must be used to establish a foreign key in the entity in which the `@JoinColumn` is declared. For example, consider a one-to-one relation between a `user` entity and a `profile` entity. In order for the `user` entity to have a `profileId` column in the database, the `@JoinColumn` decorator must be applied to the field that holds the relation. For example:
+
+```typescript
+@Entity()
+export class User {
+    // any number of other column definitions
+    
+    // Default join column name is set to `profileId`, but you can set any name using the `name` field in a 
+    // configuration object passed to the `@JoinColumn` declaration.
+    @OneToOne(() => Profile)
+    @JoinColumn()
+    profile: Profile;
+}
+```

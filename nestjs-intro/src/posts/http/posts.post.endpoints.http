@@ -10,11 +10,7 @@ Content-Type: application/json
   "schema": "{\"@context\": \"https:\/\/schema.org\", \"@type\": \"Person\"}",
   "featuredImageUrl": "https://outtatime.com/images/doc.png",
   "publishOn": "2026-02-04T08:00:00-06:00",
-  "tags": [ "time-travel", "delorean" ],
-  "metaOptions": [
-    {
-      "key": "isPost",
-      "value": true
-    }
-  ]
+  "metaOptions": {
+    "metaValue": "{ \"sidebarEnabled\": true, \"footerActive\": true }"
+  }
 }
