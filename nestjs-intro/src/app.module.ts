@@ -9,6 +9,7 @@ import {ConfigModule} from "@nestjs/config";
 import {User} from "./users/user.entity";
 import { TagsModule } from './tags/tags.module';
 import { MetaOptionsModule } from './meta-options/meta-options.module';
+import {SnakeNamingStrategy} from "typeorm-naming-strategies";
 
 @Module({
     imports: [
@@ -23,6 +24,7 @@ import { MetaOptionsModule } from './meta-options/meta-options.module';
                 type: "postgres",
                 // entities: [User],
                 autoLoadEntities: true,
+                namingStrategy: new SnakeNamingStrategy(),
                 synchronize:  process.env.DB_SYNC === "true", // use in dev only
                 host: process.env.DB_HOST,
                 port: 5432,
