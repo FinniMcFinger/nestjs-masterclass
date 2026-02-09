@@ -13,21 +13,11 @@ export class PostsService {
         private readonly usersService: UsersService,
         @InjectRepository(Post)
         private readonly postsRepository: Repository<Post>,
-        @InjectRepository(MetaOption)
-        private readonly metaOptionsRepository: Repository<MetaOption>,
     ) {}
 
     // lengthy creation method without cascades
     public async create(createPostDto: CreatePostDto) {
-        let metaOption = createPostDto.metaOptions ?
-            this.metaOptionsRepository.create(createPostDto.metaOptions) : null;
-
-        if (metaOption) {
-            await this.metaOptionsRepository.save(metaOption);
-        }
-
         let newPost = this.postsRepository.create({...createPostDto});
-        newPost.metaOptions = metaOption;
 
         return await this.postsRepository.save(newPost);
     }

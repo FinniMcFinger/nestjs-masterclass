@@ -29,7 +29,6 @@ export class Post {
         type: "varchar",
         length: 256,
         nullable: false,
-        unique: true,
     })
     slug: string;
 
@@ -68,7 +67,9 @@ export class Post {
 
     tags?: string[];
 
-    @OneToOne(() => MetaOption)
+    @OneToOne(() => MetaOption, {
+        cascade: true,
+    })
     @JoinColumn({ name: "metaOptionId" })
     metaOptions?: MetaOption | null;
 }
