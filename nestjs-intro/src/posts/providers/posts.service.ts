@@ -1,6 +1,5 @@
 import {Injectable} from "@nestjs/common";
 import {UsersService} from "../../users/providers/users.service";
-import {MetaOptionsService} from "../../meta-options/providers/meta-options.service";
 import {CreatePostDto} from "../dtos/create-post.dto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Post} from "../post.entity";
@@ -13,6 +12,8 @@ export class PostsService {
         private readonly usersService: UsersService,
         @InjectRepository(Post)
         private readonly postsRepository: Repository<Post>,
+        @InjectRepository(MetaOption)
+        private readonly metaOptionsRepository: Repository<MetaOption>,
     ) {}
 
     // lengthy creation method without cascades
@@ -32,5 +33,15 @@ export class PostsService {
         });
 
         return posts;
+    }
+
+    // lengthy method because of unidirectional relation
+    public async delete(postId: number) {
+        let post = await this.postsRepository.findOneBy({ id: postId });
+        let metaOptionsId = post?.metaOptions?.id;
+        await this.postsRepository.delete(postId);
+        if (metaOptionsId) await this.metaOptionsRepository.delete(metaOptionsId);
+
+        return { deleted: true, id: postId };
     }
 }
