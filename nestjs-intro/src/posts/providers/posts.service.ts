@@ -22,20 +22,15 @@ export class PostsService {
         return await this.postsRepository.save(newPost);
     }
 
-    public findAll(userId: number) {
+    public async findAll(userId: number) {
         const user = this.usersService.findById(userId);
+        let posts = await this.postsRepository.find({
+            // affect eager loading explicitly
+            // relations: {
+            //     metaOptions: true
+            // },
+        });
 
-        return [
-            {
-                user,
-                title: "Title",
-                content: "lorem ipsum",
-            },
-            {
-                user,
-                title: "Title 2",
-                content: "dolor sit amet",
-            },
-        ]
+        return posts;
     }
 }
