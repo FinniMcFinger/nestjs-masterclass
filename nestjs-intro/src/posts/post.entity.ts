@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
-import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import { PostType } from "./enums/post-type.enum";
 import { PostStatus } from "./enums/post-status.enum";
 import { CreateMetaOptionsDto } from "../meta-options/dtos/create-meta-options.dto";
 import {MetaOption} from "../meta-options/meta-option.entity";
+import {User} from "../users/user.entity";
 
 @Entity()
 export class Post {
@@ -72,4 +73,7 @@ export class Post {
         eager: true,
     })
     metaOptions?: MetaOption | null;
+
+    @ManyToOne(() => User, (user) => user.posts, {})
+    author: User;
 }
