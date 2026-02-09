@@ -35,12 +35,8 @@ export class PostsService {
         return posts;
     }
 
-    // lengthy method because of unidirectional relation
     public async delete(postId: number) {
-        let post = await this.postsRepository.findOneBy({ id: postId });
-        let metaOptionsId = post?.metaOptions?.id;
         await this.postsRepository.delete(postId);
-        if (metaOptionsId) await this.metaOptionsRepository.delete(metaOptionsId);
 
         return { deleted: true, id: postId };
     }

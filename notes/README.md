@@ -142,3 +142,4 @@ export class User {
 
 - `cascade`: allows you to affect child records during interactions with the parent record, i.e. delete child records upon deletion of the parent
 - `eager`: allows you to load child records when retrieving the parent record, i.e. `user -|---< post` setting `eager` to `true` would retrieve all the user's posts when retrieving the user and/or retrieve the user data when retrieving a post (this can be affected via the `relations` configuration when querying with TypeORM)
+- `onDelete`: allows you to configure the behavior of delete functions, i.e. `"CASCADE"` allows deletions of records whenever its parent is deleted

@@ -1,2 +1,2 @@
 DELETE localhost:3000/posts?
-    id=4
+    id=3
