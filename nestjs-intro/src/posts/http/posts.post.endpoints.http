@@ -12,5 +12,6 @@ Content-Type: application/json
   "publishOn": "2026-02-04T08:00:00-06:00",
   "metaOptions": {
     "metaValue": "{ \"sidebarEnabled\": true, \"footerActive\": true }"
-  }
+  },
+  "authorId": 1
 }

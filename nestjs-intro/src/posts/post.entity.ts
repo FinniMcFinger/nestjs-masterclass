@@ -75,5 +75,5 @@ export class Post {
     metaOptions?: MetaOption | null;
 
     @ManyToOne(() => User, (user) => user.posts, {})
-    author: User;
+    author: User | null;
 }

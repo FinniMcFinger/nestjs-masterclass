@@ -4,21 +4,22 @@ import {CreatePostDto} from "../dtos/create-post.dto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Post} from "../post.entity";
 import {Repository} from "typeorm";
-import {MetaOption} from "../../meta-options/meta-option.entity";
 
 @Injectable()
 export class PostsService {
     constructor(
         private readonly usersService: UsersService,
         @InjectRepository(Post)
-        private readonly postsRepository: Repository<Post>,
-        @InjectRepository(MetaOption)
-        private readonly metaOptionsRepository: Repository<MetaOption>,
-    ) {}
+        private readonly postsRepository: Repository<Post>
+    ){}
 
     // lengthy creation method without cascades
     public async create(createPostDto: CreatePostDto) {
-        let newPost = this.postsRepository.create({...createPostDto});
+        let author = await this.usersService.findById(createPostDto.authorId);
+        let newPost = this.postsRepository.create({
+            ...createPostDto,
+            author: author,
+        });
 
         return await this.postsRepository.save(newPost);
     }
