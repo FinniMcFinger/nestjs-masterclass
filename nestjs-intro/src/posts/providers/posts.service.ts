@@ -29,7 +29,8 @@ export class PostsService {
         let posts = await this.postsRepository.find({
             // affect eager loading explicitly
             // relations: {
-            //     metaOptions: true
+            //     metaOptions: true,
+            //     author: true,
             // },
         });
 
